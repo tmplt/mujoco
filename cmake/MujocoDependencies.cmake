@@ -93,8 +93,6 @@ set(BUILD_SHARED_LIBS
 if(NOT TARGET lodepng)
   FetchContent_Declare(
     lodepng
-    GIT_REPOSITORY https://github.com/lvandeve/lodepng.git
-    GIT_TAG ${MUJOCO_DEP_VERSION_lodepng}
   )
 
   FetchContent_GetProperties(lodepng)
@@ -113,8 +111,6 @@ endif()
 if(NOT TARGET marchingcubecpp)
   FetchContent_Declare(
     marchingcubecpp
-    GIT_REPOSITORY https://github.com/aparis69/MarchingCubeCpp.git
-    GIT_TAG ${MUJOCO_DEP_VERSION_MarchingCubeCpp}
   )
 
   FetchContent_GetProperties(marchingcubecpp)
@@ -133,10 +129,6 @@ findorfetch(
   qhull
   LIBRARY_NAME
   qhull
-  GIT_REPO
-  https://github.com/qhull/qhull.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_qhull}
   TARGETS
   qhull
   EXCLUDE_FROM_ALL
@@ -157,10 +149,6 @@ findorfetch(
   tinyxml2
   LIBRARY_NAME
   tinyxml2
-  GIT_REPO
-  https://github.com/leethomason/tinyxml2.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_tinyxml2}
   TARGETS
   tinyxml2
   EXCLUDE_FROM_ALL
@@ -175,10 +163,6 @@ findorfetch(
   tinyobjloader
   LIBRARY_NAME
   tinyobjloader
-  GIT_REPO
-  https://github.com/tinyobjloader/tinyobjloader.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_tinyobjloader}
   TARGETS
   tinyobjloader
   EXCLUDE_FROM_ALL
@@ -194,10 +178,6 @@ findorfetch(
   sdflib
   LIBRARY_NAME
   sdflib
-  GIT_REPO
-  https://github.com/UPC-ViRVIG/SdfLib.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_sdflib}
   TARGETS
   SdfLib
   EXCLUDE_FROM_ALL
@@ -214,10 +194,6 @@ findorfetch(
   ccd
   LIBRARY_NAME
   ccd
-  GIT_REPO
-  https://github.com/danfis/libccd.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_ccd}
   TARGETS
   ccd
   EXCLUDE_FROM_ALL
@@ -254,10 +230,6 @@ if(MUJOCO_BUILD_TESTS)
     absl
     LIBRARY_NAME
     abseil-cpp
-    GIT_REPO
-    https://github.com/abseil/abseil-cpp.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_abseil}
     TARGETS
     absl::core_headers
     EXCLUDE_FROM_ALL
@@ -281,10 +253,6 @@ if(MUJOCO_BUILD_TESTS)
     GTest
     LIBRARY_NAME
     googletest
-    GIT_REPO
-    https://github.com/google/googletest.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_gtest}
     TARGETS
     gtest
     gmock
@@ -315,10 +283,6 @@ if(MUJOCO_BUILD_TESTS)
     benchmark
     LIBRARY_NAME
     benchmark
-    GIT_REPO
-    https://github.com/google/benchmark.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_benchmark}
     TARGETS
     benchmark::benchmark
     benchmark::benchmark_main
@@ -335,8 +299,6 @@ if(MUJOCO_TEST_PYTHON_UTIL)
 
     FetchContent_Declare(
       Eigen3
-      GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-      GIT_TAG ${MUJOCO_DEP_VERSION_Eigen3}
     )
 
     FetchContent_GetProperties(Eigen3)
