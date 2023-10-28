@@ -90,20 +90,24 @@ set(BUILD_SHARED_LIBS
     CACHE INTERNAL "Build SHARED libraries"
 )
 
-option(MUJOCO_USE_SYSTEM_lodepng "Use installed lodepng version." OFF)
-mark_as_advanced(MUJOCO_USE_SYSTEM_lodepng)
+
+if(NOT TARGET lodepng)
+  fetchcontent_declare(
+    lodepng
+  )
+endif()
 
 if(NOT TARGET lodepng)
   if(NOT MUJOCO_USE_SYSTEM_lodepng)
-    FetchContent_Declare(
+    fetchcontent_declare(
       lodepng
       GIT_REPOSITORY https://github.com/lvandeve/lodepng.git
       GIT_TAG ${MUJOCO_DEP_VERSION_lodepng}
     )
 
-    FetchContent_GetProperties(lodepng)
+    fetchcontent_getproperties(lodepng)
     if(NOT lodepng_POPULATED)
-      FetchContent_Populate(lodepng)
+      fetchcontent_populate(lodepng)
       # This is not a CMake project.
       set(LODEPNG_SRCS ${lodepng_SOURCE_DIR}/lodepng.cpp)
       set(LODEPNG_HEADERS ${lodepng_SOURCE_DIR}/lodepng.h)
@@ -118,15 +122,13 @@ if(NOT TARGET lodepng)
 endif()
 
 if(NOT TARGET marchingcubecpp)
-  FetchContent_Declare(
+  fetchcontent_declare(
     marchingcubecpp
-    GIT_REPOSITORY https://github.com/aparis69/MarchingCubeCpp.git
-    GIT_TAG ${MUJOCO_DEP_VERSION_MarchingCubeCpp}
   )
 
-  FetchContent_GetProperties(marchingcubecpp)
+  fetchcontent_getproperties(marchingcubecpp)
   if(NOT marchingcubecpp_POPULATED)
-    FetchContent_Populate(marchingcubecpp)
+    fetchcontent_populate(marchingcubecpp)
     include_directories(${marchingcubecpp_SOURCE_DIR})
   endif()
 endif()
@@ -143,10 +145,6 @@ findorfetch(
   Qhull
   LIBRARY_NAME
   qhull
-  GIT_REPO
-  https://github.com/qhull/qhull.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_qhull}
   TARGETS
   qhull
   EXCLUDE_FROM_ALL
@@ -186,10 +184,6 @@ findorfetch(
   tinyxml2
   LIBRARY_NAME
   tinyxml2
-  GIT_REPO
-  https://github.com/leethomason/tinyxml2.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_tinyxml2}
   TARGETS
   tinyxml2::tinyxml2
   EXCLUDE_FROM_ALL
@@ -210,10 +204,6 @@ findorfetch(
   tinyobjloader
   LIBRARY_NAME
   tinyobjloader
-  GIT_REPO
-  https://github.com/tinyobjloader/tinyobjloader.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_tinyobjloader}
   TARGETS
   tinyobjloader
   EXCLUDE_FROM_ALL
@@ -244,10 +234,6 @@ findorfetch(
   SdfLib
   LIBRARY_NAME
   sdflib
-  GIT_REPO
-  https://github.com/UPC-ViRVIG/SdfLib.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_sdflib}
   TARGETS
   SdfLib::SdfLib
   EXCLUDE_FROM_ALL
@@ -270,10 +256,6 @@ findorfetch(
   ccd
   LIBRARY_NAME
   ccd
-  GIT_REPO
-  https://github.com/danfis/libccd.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_ccd}
   TARGETS
   ccd
   EXCLUDE_FROM_ALL
@@ -322,10 +304,6 @@ if(MUJOCO_BUILD_TESTS)
     absl
     LIBRARY_NAME
     abseil-cpp
-    GIT_REPO
-    https://github.com/abseil/abseil-cpp.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_abseil}
     TARGETS
     absl::core_headers
     EXCLUDE_FROM_ALL
@@ -352,10 +330,6 @@ if(MUJOCO_BUILD_TESTS)
     GTest
     LIBRARY_NAME
     googletest
-    GIT_REPO
-    https://github.com/google/googletest.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_gtest}
     TARGETS
     GTest::gmock
     GTest::gtest_main
@@ -388,10 +362,6 @@ if(MUJOCO_BUILD_TESTS)
     benchmark
     LIBRARY_NAME
     benchmark
-    GIT_REPO
-    https://github.com/google/benchmark.git
-    GIT_TAG
-    ${MUJOCO_DEP_VERSION_benchmark}
     TARGETS
     benchmark::benchmark
     benchmark::benchmark_main
@@ -409,16 +379,25 @@ if(MUJOCO_TEST_PYTHON_UTIL)
     if(NOT MUJOCO_USE_SYSTEM_Eigen3)
       # Support new IN_LIST if() operator.
       set(CMAKE_POLICY_DEFAULT_CMP0057 NEW)
+    endif()
 
-      FetchContent_Declare(
-        Eigen3
-        GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-        GIT_TAG ${MUJOCO_DEP_VERSION_Eigen3}
+    fetchcontent_declare(
+      Eigen3
+    )
+
+    fetchcontent_getproperties(Eigen3)
+    if(NOT Eigen3_POPULATED)
+      fetchcontent_populate(Eigen3)
+
+      # Mark the library as IMPORTED as a workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/15415
+      add_library(Eigen3::Eigen INTERFACE IMPORTED)
+      set_target_properties(
+        Eigen3::Eigen PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${eigen3_SOURCE_DIR}"
       )
 
-      FetchContent_GetProperties(Eigen3)
+      fetchcontent_getproperties(Eigen3)
       if(NOT Eigen3_POPULATED)
-        FetchContent_Populate(Eigen3)
+        fetchcontent_populate(Eigen3)
 
         # Mark the library as IMPORTED as a workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/15415
         add_library(Eigen3::Eigen INTERFACE IMPORTED)

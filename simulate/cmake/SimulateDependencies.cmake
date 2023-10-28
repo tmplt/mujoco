@@ -81,10 +81,6 @@ findorfetch(
   glfw3
   LIBRARY_NAME
   glfw3
-  GIT_REPO
-  https://github.com/glfw/glfw.git
-  GIT_TAG
-  ${MUJOCO_DEP_VERSION_glfw3}
   TARGETS
   glfw
   EXCLUDE_FROM_ALL
