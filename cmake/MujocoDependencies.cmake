@@ -396,15 +396,15 @@ if(MUJOCO_TEST_PYTHON_UTIL)
       )
 
       fetchcontent_getproperties(Eigen3)
-      if(NOT Eigen3_POPULATED)
-        # fetchcontent_populate(Eigen3)
+      # if(NOT Eigen3_POPULATED)
+      #   fetchcontent_populate(Eigen3)
 
-        # Mark the library as IMPORTED as a workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/15415
-        add_library(Eigen3::Eigen INTERFACE IMPORTED)
-        set_target_properties(
-          Eigen3::Eigen PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${eigen3_SOURCE_DIR}"
-        )
-      endif()
+      #   # Mark the library as IMPORTED as a workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/15415
+      #   add_library(Eigen3::Eigen INTERFACE IMPORTED)
+      #   set_target_properties(
+      #     Eigen3::Eigen PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${eigen3_SOURCE_DIR}"
+      #   )
+      # endif()
     else()
       find_package(Eigen3 REQUIRED)
     endif()
