@@ -157,6 +157,14 @@ class MuJoCoRendererTest(parameterized.TestCase):
           out=np.zeros((*failing_render_size, 3), np.uint8)
       )
 
+  def test_renderer_reassign(self):
+    model = mujoco.MjModel.from_xml_string('<mujoco/>')
+    renderer = mujoco.Renderer(model)
+    self.assertTrue(np.all(renderer.render() == 0))
+
+    renderer = mujoco.Renderer(model)
+    self.assertTrue(np.all(renderer.render() == 0))
+
 
 if __name__ == '__main__':
   absltest.main()
